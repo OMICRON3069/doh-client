@@ -1,6 +1,7 @@
 /*
-   DNS-over-HTTPS
+   DNS-over-HTTPS Client
    Copyright (C) 2017-2018 Star Brilliant <m13253@hotmail.com>
+   Copyright (C) 2020 Aaron Xu <GitHub.Contact@piupiupiu.me>
 
    Permission is hereby granted, free of charge, to any person obtaining a
    copy of this software and associated documentation files (the "Software"),
@@ -34,8 +35,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/m13253/dns-over-https/doh-client/selector"
-	"github.com/m13253/dns-over-https/json-dns"
+	"dohc/selector"
+
+	jsonDNS "dohc/json-dns"
+
 	"github.com/miekg/dns"
 )
 

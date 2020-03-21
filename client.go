@@ -1,6 +1,7 @@
 /*
-   DNS-over-HTTPS
+   DNS-over-HTTPS Client
    Copyright (C) 2017-2018 Star Brilliant <m13253@hotmail.com>
+   Copyright (C) 2020 Aaron Xu <GitHub.Contact@piupiupiu.me>
 
    Permission is hereby granted, free of charge, to any person obtaining a
    copy of this software and associated documentation files (the "Software"),
@@ -37,9 +38,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/m13253/dns-over-https/doh-client/config"
-	"github.com/m13253/dns-over-https/doh-client/selector"
-	"github.com/m13253/dns-over-https/json-dns"
+	"dohc/config"
+	"dohc/selector"
+
+	jsonDNS "dohc/json-dns"
+
 	"github.com/miekg/dns"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/idna"
@@ -269,7 +272,11 @@ func (c *Client) newHTTPClient() error {
 }
 
 func (c *Client) Start() error {
+
+	// create channel to receive err
 	results := make(chan error, len(c.udpServers)+len(c.tcpServers))
+
+	// launch routine for each listening address
 	for _, srv := range append(c.udpServers, c.tcpServers...) {
 		go func(srv *dns.Server) {
 			err := srv.ListenAndServe()
